@@ -1,0 +1,11 @@
+{
+  "name": "energysaver",
+  "description": "webapp",
+  "version": "1.0.0",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "mongoose": "*",
+    "mongodb":"*"
+  }
+}
