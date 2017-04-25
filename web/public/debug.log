@@ -1,3 +1,0 @@
-[0418/145412.306:ERROR:crash_report_database_win.cc(563)] CreateDirectory C:\Program Files (x86)\temp: Acesso negado. (0x5)
-[0418/145414.605:ERROR:registration_protocol_win.cc(83)] TransactNamedPipe: O pipe foi finalizado. (0x6D)
-[0418/145414.605:ERROR:crashpad_win.cc(223)] Crashpad handler failed to start, crash reporting disabled
