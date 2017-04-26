@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Energysaver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Visa a diminuicao no consumo de energia eletrica">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.jpg">
+    <script src="js/script.js"></script>
+  </head>
+  <body class="home">
+    <header class="cabecalho">
+      <a href="/"><h1 class="logo">Energysaver</h1></a>
+      <button class="btn-menu"><div class="bars"></div></button>
+      <nav class="menu">
+      <a class="btn-close">×</a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/sobre">Sobre</a></li>
+          <li><a href="/comments">Comentarios</a></li>
+          <li><a href="/feedback">Feedback</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="banner">
+      <div class="title">
+        <h2>Unindo tecnologia e sustentabilidade!</h2>
+        <h3>Faça-nos um comentário</h3>
+      </div>
+      <div class="buttons">
+        <a href='/feedback'>
+        <button class="btn-feedback">Feedback</button>
+        </a>
+        <a href='/sobre'>
+        <button class="btn-sobre">Sobre</button>
+        </a>
+      </div>
+    </div>
+    <main class="servicos">
+      <article class="sobre">
+        <h2 class="comment-title">Comentários</h2>
+        <% for(var i=0; i< comments.length; i++) {%>
+        <span class="quantidade"><% comments.length %></span>
+        <div class="comments">
+          <div class="name">
+          <h2><a href="mailto:<%= comments[i].email %>"><%= comments[i].name %></a></h2>
+          </div>
+          <div class="comment">
+            <p><%= comments[i].comment %></p>
+          </div>
+        </div>
+        <% } %>
+      </article>
+    </main>
+    <footer class="rodape">
+    <p>© 2017 | Energysaver, a Science & Tech distribuition.</p>
+    </footer>
+    <script src="js/jquery.min.js"></script>
+    <script>
+      $(".btn-menu").click(function(){
+        $(".menu").show();
+      });
+      $(".btn-close").click(function(){
+        $(".menu").hide();
+      });
+    </script>
+  </body>
+</html>
