@@ -21,15 +21,15 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/', (req, res) => {
+app.get('/', function (req, res) {
   res.render('index.ejs');
 });
 
-app.get('/sobre', (req, res) => {
+app.get('/sobre', function (req, res) {
   res.render('sobre.ejs');
 });
 
-app.get('/feedback', (req, res) => {
+app.get('/feedback', function (req, res) {
   res.render('feedback.ejs');
 });
 
@@ -42,8 +42,8 @@ app.post('/comments', function (req, res) {
 	}); 
 });
 
-app.get('/comments', (req, res) => {
-  db.collection('comments').find().toArray((err, result) => {
+app.get('/comments', function (req, res) {
+  db.collection('comments').find().toArray(function (err, result) {
     if (err){ return console.log(err);}
     console.log('\nOs comentários estão sendo acessados em:\n"http://127.0.0.1:3000/comments"')
     res.render('comments.ejs', {comments: result});
