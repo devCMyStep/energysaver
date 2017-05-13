@@ -14,7 +14,7 @@
 ## Windows
 * Verifique se posui o git instalado e faça download em zip ou clone o repositório, se baixou em zip, descompacte o arquivo.
 * Abra o *cmd* e entre no diretorio que baixou o arquivo ```cd "local onde salvou" + energysaver/web```
-* Logo após isto baixe as dependecias do projeco com ```npm install``` ou simplesmente ```npm i```
+* Logo após isto baixe as dependecias do projeto com ```npm install``` ou simplesmente ```npm i```
 * Após o download inicie o MongoDB, abra outra janela do cmd e digite: ```mongod```
 * Por último, no *cmd* digite: ```node server.js``` ou ```nodemon server.js```
 * Entre no navegador e entre em ```localhost:3000```, se estiver tudo ok você verá a pagina carregar
@@ -23,7 +23,7 @@
 * Verifique se posui o git instalado e faça download em zip ou clone o repositório, se baixou em zip, descompacte o arquivo.
 * Baixe o npm com ```apt-get install npm```
 * Abra o *Terminal* e entre no diretorio que baixou o arquivo ```cd "local onde salvou" + energysaver/web```
-* Logo após isto baixe as dependecias do projeco com ```npm install``` ou simplesmente ```npm i```
+* Logo após isto baixe as dependecias do projeto com ```npm install``` ou simplesmente ```npm i```
 * Após o download inicie o MongoDB, abra outra janela do *Terminal* e digite: ```sudo mongod```
 * Por último no *Terminal* digite: ```node server.js``` ou ```nodemon server.js```
 * Entre no navegador e entre em ```localhost:3000```, se estiver tudo ok você verá a pagina carregar
