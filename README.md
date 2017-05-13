@@ -12,7 +12,7 @@
 
 ### Iniciando o servidor
 ## Windows
-* Verifique se posui o git instalado e faça download em zip ou clone o repositório.
+* Verifique se posui o git instalado e faça download em zip ou clone o repositório, se baixou em zip, descompacte o arquivo.
 * Abra o *cmd* e entre no diretorio que baixou o arquivo ```cd "local onde salvou" + energysaver/web```
 * Logo após isto baixe as dependecias do projeco com ```npm install``` ou simplesmente ```npm i```
 * Após o download inicie o MongoDB, abra outra janela do cmd e digite: ```mongod```
@@ -20,7 +20,7 @@
 * Entre no navegador e entre em ```localhost:3000```, se estiver tudo ok você verá a pagina carregar
 
 ## Linux
-* Verifique se posui o git instalado e faça download em zip ou clone o repositório.
+* Verifique se posui o git instalado e faça download em zip ou clone o repositório, se baixou em zip, descompacte o arquivo.
 * Baixe o npm com ```apt-get install npm```
 * Abra o *Terminal* e entre no diretorio que baixou o arquivo ```cd "local onde salvou" + energysaver/web```
 * Logo após isto baixe as dependecias do projeco com ```npm install``` ou simplesmente ```npm i```
