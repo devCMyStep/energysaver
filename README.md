@@ -7,7 +7,7 @@
 ### Baixe, instale e configure:
 * [MongoDB](https://www.mongodb.com/ "Mongo DataBase")
 * [Nodejs](https://nodejs.org/en/ "Servidor")
-* [Npm](https://www.npmjs.com/ "NodeJs package manager") - Ao instalar o Nodejs no Windows npm já é instalado automaticamente
+* [Npm](https://www.npmjs.com/ "NodeJs package manager") - Ao instalar o Nodejs no Windows o npm já é instalado automaticamente
 * [Nodemon](https://nodemon.io/ "Nodemon") - ```npm install -g nodemon``` - *Opcional*
 
 ### Iniciando o servidor
