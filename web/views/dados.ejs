@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta http-equiv="refresh" content="30" >
+    <title>Energysaver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Visa a diminuicao no consumo de energia eletrica">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/icon.jpg">
+    <script src="js/script.js"></script>
+    <script src="js/Chart.min.js"></script>
+  </head>
+  <body class="home">
+    <header class="cabecalho">
+      <a href="/"><h1 class="logo">Energysaver</h1></a>
+      <button class="btn-menu"><div class="bars"></div></button>
+      <nav class="menu">
+      <a class="btn-close">×</a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/sobre">Sobre</a></li>
+          <li><a href="/comments">Comentarios</a></li>
+          <li><a href="/feedback">Feedback</a></li>
+          <li><a href="/dados">Dados</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="banner">
+      <div class="title">
+        <h2>Unindo tecnologia e sustentabilidade!</h2>
+        <h3>Faça-nos um comentário</h3>
+      </div>
+      <div class="buttons">
+        <a href='/feedback'>
+        <button class="btn-feedback">Feedback</button>
+        </a>
+        <a href='/sobre'>
+        <button class="btn-sobre">Sobre</button>
+        </a>
+      </div>
+    </div>
+    <main class="servicos">
+
+    <article class="sobre">
+    <canvas class="line-chart"></canvas>
+      <center>
+      <table class="dados">
+        <thead>
+          <tr>
+            <th class="head"> Horario  </th>
+            <th> Humidade </th>
+            <th> Temperatura </th>
+          </tr>
+          <tr class="media">
+            <th >Media </th>
+            <th><%= mediaH %> %</th>
+            <th><%= mediaT %> °C</th>
+          </tr>
+          <tr>
+            <th colspan="2">TOTAL </th>
+            <th><%= dados.length %></th>
+          </tr>
+        </thead>
+        <% for(var i = (dados.length - 1)  ; i >= 0; i--) {%>
+        <tr>
+          <td>
+             <span><%= dados[i].Horario %></span>
+          </td>
+          <td>
+            <span><%= dados[i].Humidade %></span>
+          </td>
+           <td>
+            <span><%= dados[i].Temperatura %></span>
+          </td>
+        <% } %>
+        </tr>
+    </table>  
+    </center>
+    </article>
+    </main>
+    <footer class="rodape">
+    <p>© 2017 | Energysaver, a Science & Tech distribuition.</p>
+    </footer>
+    <script src="js/jquery.min.js"></script>
+    <script>
+      $(".btn-menu").click(function(){
+        $(".menu").show();
+      });
+      $(".btn-close").click(function(){
+        $(".menu").hide();
+      });
+    </script>
+
+    <script type="text/javascript">
+
+    var ctx = document.getElementsByClassName("line-chart");
+
+    var ChartGraph = new Chart( ctx, {
+      type: 'line',
+      data: {
+        labels : <%-JSON.stringify(labels) %>,
+        datasets :[
+        {
+          label : "Temperatura",
+          data : <%-JSON.stringify(dataT) %>,
+          borderWidth : 4,
+          pointRadius: 0,
+          borderColor : '#333',
+          backgroundColor: 'transparent'
+        },
+        {
+          label : "Humidade",
+          data : <%-JSON.stringify(dataH) %>,
+          borderWidth : 4,
+          pointRadius: 0,
+          borderColor : '#0A63C9',
+          backgroundColor: 'transparent'
+        }
+        ]
+      },
+      options: {
+        title: {
+          display : true,
+          fontSize: 20, 
+          text: "Temperatura e Humidade"
+        }, 
+        scales:
+        {
+            xAxes: [{
+                display: false
+            }]
+        },
+        responsive: true
+      }
+    });
+
+  </script>
+  </body>
+</html>
