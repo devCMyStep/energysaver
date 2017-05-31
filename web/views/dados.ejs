@@ -42,9 +42,34 @@
       </div>
     </div>
     <main class="servicos">
-
     <article class="sobre">
+    <section class="box-section">
+      <% var last = dados.length - 1;  %>
+    <div class="temp-box">
+      Temperatura<br>
+      <p>
+       <%= dados[last].temperature %>
+      </p>
+    </div>
+    <div class="hum-box">
+      Humidade<br>
+      <p>
+        <%= dados[last].humidity %>
+      </p>
+    </div>
+    <div class="media-box">
+      <p> Media total </p> <br>
+      <div class="mediT">
+        <%= mediaT %>°C
+      </div>
+      <div class="mediH">
+        <%= mediaH %>%
+      </div>
+    </div>
+    </section>
+    <section class="box-chart">
     <canvas class="line-chart"></canvas>
+    </section>
       <center>
       <table class="dados">
         <thead>
@@ -92,11 +117,8 @@
         $(".menu").hide();
       });
     </script>
-
     <script type="text/javascript">
-
     var ctx = document.getElementsByClassName("line-chart");
-
     var ChartGraph = new Chart( ctx, {
       type: 'line',
       data: {
@@ -108,7 +130,7 @@
           borderWidth : 4,
           pointRadius: 0,
           borderColor : '#333',
-          backgroundColor: 'transparent'
+          backgroundColor: 'rgba(51, 51, 51, 0.0)'
         },
         {
           label : "Humidade",
@@ -116,7 +138,7 @@
           borderWidth : 4,
           pointRadius: 0,
           borderColor : '#0A63C9',
-          backgroundColor: 'transparent'
+          backgroundColor: 'rgba(10, 99, 201,0.0)'
         }
         ]
       },
@@ -135,7 +157,6 @@
         responsive: true
       }
     });
-
   </script>
   </body>
 </html>
