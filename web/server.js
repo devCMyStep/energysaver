@@ -6,12 +6,14 @@ var db;
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://localhost');
 var parser = require('json-parser');
+var fs = require('fs');
 
-MongoClient.connect('mongodb://127.0.0.1:27017/dht11', function (err, database) { 
+
+MongoClient.connect('mongodb://127.0.0.1:27017/dbdata', function (err, database) { 
 	if (err){ 
 		return console.log('\nPor favor faça a conexão com o banco de dados\n'+err);}
 		else{
-		console.log('\nA conexão com o banco foi estabelecida em:\n"mongodb://127.0.0.1:27017/energy"\n');
+		console.log('\nA conexão com o banco foi estabelecida em:\n"mongodb://127.0.0.1:27017/dbdata"\n');
 		}
 	db = database;
 	app.listen(3000, function() { 
@@ -55,49 +57,63 @@ app.get('/comments', function (req, res) {
 app.get('/dados', function (req, res) {
   db.collection('dados').find().toArray( function (err, result) {
     if (err){ return console.log(err);}
-    var dtaT = [];
-    var dtaH = [];
-    var lbls = []; 
-    for (var i = 0 ; i < result.length; i++) {  
-      lbls.push(result[i].Horario); 
-    }  
-    var totalT = 0;
-    for (var i = 0; i < result.length; i++) {
-      var itemT = result[i].Temperatura ;
-  		var toNumT = itemT.replace(/\D+/g, "");
-  		var numT = parseInt(toNumT);
-      dtaT.push(numT);
-		  totalT = totalT + numT;
-         }
-    mediT = (totalT/result.length);
-    mediaT = mediT.toFixed(2);
-    var totalH = 0;
-    for (var i = 0; i < result.length; i++) {
-      var itemH = result[i].Humidade ;
-  		var toNumH = itemH.replace(/\D+/g, "");
-  		var numH = parseInt(toNumH);
-      dtaH.push(numH);
-  		totalH = totalH + numH;
-         }
-    mediH = (totalH/result.length);
-    mediaH = mediH.toFixed(2)
-    console.log(mediaT + ' °C ' + mediaH+ '%')
-    res.render('dados.ejs', {dados: result, mdT : mediaT, mdH : mediaH, dataT: dtaT, dataH: dtaH, labels: lbls});
+    var dtaV = [];
+    var lbls = [];
+    var title;
+    for (var i = 0 ; i < result.length; i++) { 
+      lbls.push(result[i].hour);
+      dtaV.push(result[i].value);
+    }
+    res.render('dados.ejs', {dados: result, dtav:dtaV, labels: lbls});
   });
+  db.collection('dados').find().toArray( function (err, result) {
+      if (err){ return console.log(err);}
+      fs.unlink('dadocsv.csv', (err) => {
+        });     
+      for (var i = 0 ; i < result.length; i++) { 
+           var id = JSON.stringify(result[i]._id);
+           var user = JSON.stringify(result[i].user);
+           var local = JSON.stringify(result[i].local);
+           var device = JSON.stringify(result[i].device);
+           var day = JSON.stringify(result[i].day);
+           var hour = JSON.stringify(result[i].hour);
+           var type = JSON.stringify(result[i].tipo_sensor);
+           var model = JSON.stringify(result[i].modelo_sensor);
+           var value = JSON.stringify(result[i].value);
+
+           fs.appendFile('dadocsv.csv',id+','+user+','+local+','+device+','+day+','+hour+','+type+','+model+','+value+'\n', function (err) {
+              if (err) throw err;
+            });
+      }
+});
 });
 
 client.on('connect', function () {
-  client.subscribe('Tapajos-IoT/');
+  client.subscribe('Tapajos-IoT');
 });
- 
+
+app.get('/download', function (req, res) {
+    res.download(__dirname+'/dadocsv.csv','dadocsv.csv');
+});
+
+
+// app.get('/download', function(req, res){ 
+    
+// });
+
+
 client.on('message', function (topic, message) {
-  console.log(message.toString());
-  var msg = JSON.parse(message.toString())
-  db.collection('dados').save(msg, function (err, result) {
-  		if (err){ return console.log(err);}
-  		else { 
-		console.log('\nUm dado foi salvo no banco de dados:\n')
-		console.log(msg);
-		}
-	}); 
+  var msg = JSON.parse(message.toString());
+  db.collection('dados').find().toArray( function (err, database) {
+    if (err){ return console.log(err);}
+    var count = 0;
+    db.collection('dados').save(msg, function (err, result) {
+      if (err){ return console.log(err);}
+      else { 
+      console.log('\nUm dado foi salvo no banco de dados:\n')
+      console.log(msg);
+        }
+    }); 
+    console.log(count.toString());
+  });
 });

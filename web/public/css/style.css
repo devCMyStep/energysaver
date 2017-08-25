@@ -225,7 +225,20 @@ img { max-width: 100%;}
 }
 /*GRAPH SECTION*/
 .box-chart {
+  width: 60%;
+  float: left;
+  margin-left: 5%;
+}
+/*DOWNLOAD SECTION*/
+.download-box{
+  margin-top: 5%;
+  margin-left: 38%;
+  float: left;
   width: 100%;
+  color: #333;
+}
+.download:hover {
+  color: #0A63C9;
 }
 /*BOX's SECTION*/
 .temp-box {
@@ -259,6 +272,7 @@ img { max-width: 100%;}
   width: 98%;
   margin-left: 0;
   color: #fff;
+  display: none;
   margin-top: 2%;
   padding: 3% 4%;
   border: 5px solid #333;
@@ -266,6 +280,7 @@ img { max-width: 100%;}
 .media-box p {
   margin-left: 0;
   float: left;
+  display: none;
   width: 45%;
   color: #333;
   font-size: 1em;
@@ -382,6 +397,8 @@ td{
   color: #fff;
   font-size: 1.5em;
 }
+
+
 /*CELULARES PEQUENOS 320PX*/
 @media screen and (min-width: 320px) {
 .banner{
@@ -390,6 +407,10 @@ td{
 .servicos {
   margin-top: 0;
   }
+.box-chart{
+    width: 75%;
+    float: left;
+}
 }
 /*--- Celulares medios*/
 @media screen and (min-width: 480px) {
@@ -428,6 +449,17 @@ td{
     width: 70%;
     margin-left: 15%;
   }
+.box-chart{
+    width: 100%;
+    float: left;
+}
+.line-chartT{
+    width: 90%;
+}
+.line-chartH{
+    width: 90%;
+}
+
 }
 @media screen and (min-width: 640px) {
 .banner{
@@ -528,7 +560,7 @@ td{
   }
   .mediT {
     margin-top: 1%;
-    margin-left: 2%;
+    margin-left: 0;
     float: left;
     width: 47%;
     color: #333;
@@ -542,6 +574,10 @@ td{
     color: #0A63C9;
     font-size: 3em;
 }
+
+ .box-chart{
+    width: 75%;
+    float: left;
 }
 
 @media screen and (min-width: 768px) {
@@ -551,6 +587,10 @@ td{
 .servicos {
   margin-top: 0;
   }
+.box-chart{
+    width: 90%;
+    float: left;
+}
 
 }
 @media screen and (min-width: 1024px) {
@@ -629,8 +669,9 @@ td{
   }
   .temp-box {
     /*margin-left: 21%;*/
-    width: 27%;
+    width: 23%;
     color: #fff;
+    margin-left: 5%;
     background-color: #333;
     padding: 3% 4%;
     float: left;
@@ -642,9 +683,9 @@ td{
   }
   .hum-box {
     float: left;
-    width: 27%;
+    width: 23%;
     color: #fff;
-    margin-left: 2%;
+    margin-left: 22%;
     padding: 3% 4%;
     background-color: #0A63C9;
   }
@@ -655,7 +696,7 @@ td{
   }
   .media-box {
     float: left;
-    width: 40%;
+    width: 48%;
     color: #fff;
     margin-top: 0;
     margin-left: 2%;
@@ -684,6 +725,17 @@ td{
     width: 37%;
     color: #0A63C9;
     font-size: 3em;
+}
+
+.line-chartT{
+    width: 45%;
+    float: left;
+    margin-left: 5%;
+}
+.line-chartH{
+    width: 45%;
+    float: left;
+    margin-left: 5%;
 }
 
 }

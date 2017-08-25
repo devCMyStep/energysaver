@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta http-equiv="refresh" content="30" >
+    <meta http-equiv="refresh" content="10" >
     <title>Energysaver</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta charset="utf-8">
@@ -43,66 +43,15 @@
     </div>
     <main class="servicos">
     <article class="sobre">
-    <section class="box-section">
-      <% var last = dados.length - 1;  %>
-    <div class="temp-box">
-      Temperatura<br>
-      <p>
-       <%= dados[last].Temperatura %>
-      </p>
-    </div>
-    <div class="hum-box">
-      Humidade<br>
-      <p>
-        <%= dados[last].Humidade %>
-      </p>
-    </div>
-    <div class="media-box">
-      <p> Media total </p> <br>
-      <div class="mediT">
-        <%= mediaT %>°C
-      </div>
-      <div class="mediH">
-        <%= mediaH %>%
-      </div>
-    </div>
-    </section>
     <section class="box-chart">
-    <canvas class="line-chart"></canvas>
+        <canvas class="line-chartT"></canvas>
     </section>
-      <center>
-      <table class="dados">
-        <thead>
-          <tr>
-            <th class="head"> Horario  </th>
-            <th> Humidade </th>
-            <th> Temperatura </th>
-          </tr>
-          <tr class="media">
-            <th >Media </th>
-            <th><%= mediaH %> %</th>
-            <th><%= mediaT %> °C</th>
-          </tr>
-          <tr>
-            <th colspan="2">TOTAL </th>
-            <th><%= dados.length %></th>
-          </tr>
-        </thead>
-        <% for(var i = (dados.length - 1)  ; i >= 0; i--) {%>
-        <tr>
-          <td>
-             <span><%= dados[i].Horario %></span>
-          </td>
-          <td>
-            <span><%= dados[i].Humidade %></span>
-          </td>
-           <td>
-            <span><%= dados[i].Temperatura %></span>
-          </td>
-        <% } %>
-        </tr>
-    </table>  
+    <section>
+      <div class="download-box">
+        <h2><a href="/download" class="download"> Download dos dados para excel!</a></h2>
+      </div>
     </center>
+    </section>
     </article>
     </main>
     <footer class="rodape">
@@ -118,27 +67,19 @@
       });
     </script>
     <script type="text/javascript">
-    var ctx = document.getElementsByClassName("line-chart");
+    var ctx = document.getElementsByClassName("line-chartT");
     var ChartGraph = new Chart( ctx, {
       type: 'line',
       data: {
         labels : <%-JSON.stringify(labels) %>,
         datasets :[
         {
-          label : "Temperatura",
-          data : <%-JSON.stringify(dataT) %>,
-          borderWidth : 4,
-          pointRadius: 0,
+          label : "Corrente",
+          data : <%-JSON.stringify(dtav) %>,
+          borderWidth : 3,
+          pointRadius: 1,
           borderColor : '#333',
           backgroundColor: 'rgba(51, 51, 51, 0.0)'
-        },
-        {
-          label : "Humidade",
-          data : <%-JSON.stringify(dataH) %>,
-          borderWidth : 4,
-          pointRadius: 0,
-          borderColor : '#0A63C9',
-          backgroundColor: 'rgba(10, 99, 201,0.0)'
         }
         ]
       },
@@ -146,17 +87,30 @@
         title: {
           display : true,
           fontSize: 20, 
-          text: "Temperatura e Humidade"
+          text: "Corrente"
         }, 
         scales:
         {
             xAxes: [{
-                display: false
+                display: false,
+                scaleBeginAtZero: true
+            }],
+            yAxes: [{
+                display: true,
+                scaleBeginAtZero: true
             }]
         },
-        responsive: true
-      }
+        responsive: true,
+        animation: false
+        }
     });
-  </script>
+
+  function setData(data) {
+    data.push(<%-JSON.stringify(dtav) %>);
+    data.update();
+  }
+  
+</script>
   </body>
 </html>
+
