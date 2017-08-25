@@ -96,12 +96,6 @@ app.get('/download', function (req, res) {
     res.download(__dirname+'/dadocsv.csv','dadocsv.csv');
 });
 
-
-// app.get('/download', function(req, res){ 
-    
-// });
-
-
 client.on('message', function (topic, message) {
   var msg = JSON.parse(message.toString());
   db.collection('dados').find().toArray( function (err, database) {
