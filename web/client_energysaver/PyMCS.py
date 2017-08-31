@@ -26,10 +26,9 @@ def start():
 	while tempo_i < tempo_f :
 		valor = random.uniform(float(dado[0]),float(dado[1]))
 		dia = str(datetime.date.today())
-		#dia =  "2017-07-18"
+		dia =  "2017-07-14"
 		hora = str(datetime.datetime.now().time()).split(".")
 		hora = str(hora[0])
-		#hora = "15:38:52"
 		model = {
 				"user": user,
 				"local": local,
