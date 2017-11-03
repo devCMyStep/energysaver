@@ -14,12 +14,13 @@ Após criar o programa que será usado para enviar os dados para o sistema algum
 		}
 		“user”: “Dalton”,
 		“local”: “laboratório”,
-		”dispositivo”: “raspberry pi”,
-		“hora”: ”15:31:22”,
-		“dia”: “10-07-2017”
-		“tipo_sensor”: “corrente”,
-		“modelo_sensor”: “ACS712”,
-		“valor”: “0.45”
+		”device”: “raspberry pi”,
+		“hour”: ”15:31:22”,
+		“day”: “10-07-2017”,
+		"name_sensor": "corrente01",
+		“type_sensor”: “corrente”,
+		“model_sensor”: “ACS712”,
+		“value”: “0.45”
 		}
 ```
 
