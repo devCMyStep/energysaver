@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <% include ../partials/head %>
+    <% include ../partials/header %>
+    <body>
+        <% include ../partials/search %>
+        <main class="box-chart">
+            <canvas class="line-chart"></canvas>
+            <br>
+            <a href="/usuarios/user/<%=session._id%>/sensores/sensor/<%=sensor._id%>" class="btn btn-primary float-right">Voltar</a>            
+        </main>
+    </body>
+    <% include ../partials/footer %>
+    <script type="text/javascript">
+        var ctx = document.getElementsByClassName("line-chart");
+        var ChartGraph = new Chart( ctx, {
+            type: 'line',
+            data: {
+                labels : <%-JSON.stringify(dados.labels) %>,
+                datasets :[
+                {
+                    label : "Corrente (A)",
+                    strokeColor: "#fff",
+                    fontColor: "#fff",
+                    data : <%-JSON.stringify(dados.data) %>,
+                    borderWidth : 2,
+                    tension: 0,
+                    pointRadius: 1,
+                    borderColor : '#3399ff',
+                    backgroundColor: 'rgba(51, 51, 51, 0.5)'
+                }
+              ]
+            },
+            options: options
+        });
+
+    </script>
+    <script type="text/javascript">
+        var io = io();
+        $(function(){
+            var sensor = <%- JSON.stringify(sensor) %>;
+            io.on('msg', function(msg){
+                var dados = {
+                    type_sensor: msg.msg['type_sensor'],
+                    model_sensor: msg.msg['model_sensor'],
+                    name_sensor: msg.msg['name_sensor'],
+                    user : msg.msg['user'],
+                    local: msg.msg['local'],
+                    device : msg.msg['device']
+                }
+                if (dados.user == sensor.user && dados.name_sensor == sensor.name_sensor && dados.model_sensor == sensor.model_sensor && dados.type_sensor == sensor.type_sensor && dados.device == sensor.device && dados.local == sensor.local ){
+                    ChartGraph.data.datasets[0].data.shift();
+                    ChartGraph.data.labels.shift();
+                    ChartGraph.data.labels.push(msg.msg['hour']);
+                    ChartGraph.data.datasets[0].data.push(msg.msg['value']);
+                    ChartGraph.update();
+                }
+            });
+        });
+    </script>
+</html>

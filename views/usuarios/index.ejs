@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <% include ../partials/head %>
+  <% include ../partials/header %>
+  <body>
+  <br>
+    <div class="container">
+      <% if(messages.erro) { %>
+          <div class="alert alert-danger alert-dismissible fade show col-md-12 mx-auto" role="alert">
+            <%=messages.erro %>
+          </div>
+      <% } %>
+      <% if(messages.info) { %>
+          <div class="alert alert-success alert-dismissible fade show col-md-12 mx-auto" role="alert">
+            <%=messages.info %>
+          </div>
+      <% } %>
+      <h1>Usuarios <a class="float-right btn btn-primary" href="/usuarios/cadastrar">Cadastrar</a></h1>
+      <table class="table table-inverse">
+        <thead>
+          <th>Username</th>
+          <th>Nome:</th>
+          <th>Email:</th>
+          <th class="text-center">Opções</th>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < user.length; i++) { %>                
+            <tr>
+              <td> <%= user[i].user %></td>
+              <td> <%= user[i].nome %> </td>
+              <td> <%= user[i].email %> </td>
+              <td class="text-center">
+                <a href="/usuarios/editar/<%= user[i]._id %>" class="btn btn-primary" >
+                  Editar <i class="fa fa-pencil"></i>
+                </a>
+                <a href="/usuarios/user/<%= user[i]._id %>" class="btn btn-primary" >
+                  Abrir <i class="fa fa-external-link"></i>
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>  
+      </table>
+      <a href="/home" class="btn btn-primary float-right">Voltar</a>
+    </div>
+  </body>
+  <% include ../partials/footer %>
+</html>

@@ -1,155 +1,85 @@
-var express = require('express');
-var app = express();
-var bodyParser= require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
-var db;
+// chamada do express
+var express = require("express");
+// faz a juncao de diretorios
+var path = require("path");
+// faz o log no terminal 
+var logger = require("morgan");
+// pega valores do front-end
+var bodyPaser = require("body-parser");
+var cookieParser = require("cookie-parser");
+// cira sessoes
+var session = require("express-session");
+var passport = require('passport');
+// broker mqtt
 var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://broker');
-var parser = require('json-parser');
-var fs = require('fs');
-var http = require('http');
-var banco_de_dados = "mongodb://user:pass@ds141434.mlab.com:port/db";
-
-app.set('view engine', 'ejs');
-app.set('porta', process.env.PORT || 3000);
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({extended: true}));
-
-// conexao com banco de dados e levantamento do servidor
-MongoClient.connect('mongodb://user:pass@ds141434.mlab.com:port/db', function (err, database) {
-	if (err){
-		return console.log('\nPor favor faça a conexão com o banco de dados\n'+err);}
-		else{
-		console.log('\nA conexão com o banco foi estabelecida em:\n'+`${banco_de_dados}`+'\n');
-		}
-	db = database;
-});
-// inicializacao do servidor
-var server = http.createServer(app).listen(app.get('porta'), function () {
-  console.log("Conexa estabelecida, servindo na porta 3000");
-  });
-
+var client = mqtt.connect('mqtt://localhost');
+// banco de dados
+var mongoose = require("mongoose");
+// junta models views e controller
+var load = require("express-load");
+// envia mensagens para o front-end
+var flash = require("express-flash");
+// formarta data e hora
+var app = express();
 // socket.io
-var io = require('socket.io').listen(server);
+var socket = require("socket.io");
+// http
+var http = require("http");
 
-// conexao via subscribe-mqtt
-client.on('connect', function () {
-  client.subscribe('Topico');
+// conexao com banco de dados
+mongoose.connect("mongodb://localhost:27017/energysaver", function(err) {
+    if (err) {
+        console.log("Erro ao conectar banco de dados: " + err);
+    } else {
+        console.log("Conexao com banco de dados efetuada com sucesso");
+    }
 });
 
-// conexao com mqtt publisher e armazenamento dos dados recebidos
-client.on('message', function (topic, message) {
-  msg = JSON.parse(message.toString());
-    db.collection('dados').save(msg, function (err, result) {
-      if (err){ return console.log(err);}
-      else {
-      console.log('\nUm dado foi salvo no banco de dados:\n')
-      console.log(msg);
-      io.sockets.emit("msg",{msg:msg});
+// conexao com mqtt
+client.on('connect', function() {
+    client.subscribe('Tapajos-IoT');
+});
+
+client.on('message', function(topic, message) {
+    msg = JSON.parse(message.toString());
+    var Dados = app.models.dados;
+    var model = new Dados(msg);
+    model.save(function(err) {
+        if (err) {
+            console.log('Erro ao armazenar o dado: ' + err);
+        } else {
+            console.log('Dado salvo com sucesso: ' + message.toString());
+            io.sockets.emit("msg", { msg: msg });
         }
     });
 });
 
-// pagina principal
-app.get('/', function (req, res) {
-  res.render('index.ejs');
+// setups start 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.set("porta", process.env.PORT || 3000);
+app.use(logger("dev"));
+app.use(bodyPaser.json());
+app.use(bodyPaser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({ secret: "daltonfelipe" }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(flash());
+
+// helpers
+app.use(function(req, res, next) {
+    res.locals.session  = req.session.usuario;
+	res.locals.isLogged = req.session.usuario ? true : false;
+    next();
 });
 
-// pagina de sobre
-app.get('/sobre', function (req, res) {
-  res.render('sobre.ejs');
+load("models").then("controllers").then("routes").into(app);
+
+// levanta o servidor na porta 3000
+var server = http.createServer(app).listen(app.get("porta"), function() {
+    console.log("Listen on port 3000");
 });
 
-// pagina de dados, criacao do arquivo para download e plot do grafico
-app.get('/dados', function (req, res) {
-	db.collection('dados').find().sort({$natural:-1}).limit(50).toArray( function (err, result) {
-    if (err){ return console.log(err);}
-    var dtaV = [];
-    var lbls = [];
-    var title;
-    for (var i = result.length-1 ; i >=0 ; i--) {
-      lbls.push(result[i].hour);
-      dtaV.push(result[i].value);
-    }
-    res.render('dados.ejs', {dados: result, dtav:dtaV, labels: lbls});
-  });
-  db.collection('dados').find().toArray( function (err, result) {
-      if (err){ return console.log(err);}
-      fs.unlink('dadocsv.csv', (err) => {
-        });
-      fs.appendFile('dadocsv.csv',"id,user,local,device,day,hour,type,model,value\n", function (err) {
-              if (err) throw err;
-          });
-      for (var i = 0 ; i < result.length; i++) {
-           var id = JSON.stringify(result[i]._id);
-           var user = JSON.stringify(result[i].user);
-           var local = JSON.stringify(result[i].local);
-           var device = JSON.stringify(result[i].device);
-           var day = JSON.stringify(result[i].day);
-           var hour = JSON.stringify(result[i].hour);
-           var type = JSON.stringify(result[i].tipo_sensor);
-           var model = JSON.stringify(result[i].modelo_sensor);
-           var value = JSON.stringify(result[i].value);
-
-           fs.appendFile('dadocsv.csv',id+','+user+','+local+','+device+','+day+','+hour+','+type+','+model+','+value+'\n', function (err) {
-              if (err) throw err;
-            });
-      }
-});
-});
-
-// pagina search
-app.post('/search', function (req, res) {
-  db.collection('dados').find(req.body).toArray(function (err, result) {
-    if (err){ return console.log(err);}
-    var dtaV = [];
-    var data_search = req.body["day"];
-    var lbls = [];
-    for (var i = 0 ; i < result.length; i++) {
-      lbls.push(result[i].hour);
-      dtaV.push(result[i].value);
-    }
-    fs.unlink('dadocsv.csv', (err) => {});
-
-    fs.appendFile('dadocsv.csv',"id,user,local,device,day,hour,type,model,value\n", function (err) {
-          if (err) throw err;
-          });
-      for (var i = 0 ; i < result.length; i++) {
-           var id = JSON.stringify(result[i]._id);
-           var user = JSON.stringify(result[i].user);
-           var local = JSON.stringify(result[i].local);
-           var device = JSON.stringify(result[i].device);
-           var day = JSON.stringify(result[i].day);
-           var hour = JSON.stringify(result[i].hour);
-           var type = JSON.stringify(result[i].tipo_sensor);
-           var model = JSON.stringify(result[i].modelo_sensor);
-           var value = JSON.stringify(result[i].value);
-
-           fs.appendFile('dadocsv.csv',id+','+user+','+local+','+device+','+day+','+hour+','+type+','+model+','+value+'\n', function (err) {
-              if (err) throw err;
-          });
-      }
-    res.render('search.ejs', {day_search: data_search, dados: result, dtav:dtaV, labels: lbls});
-  });
-
-});
-
-// pagina monitoramento
-app.get('/monitoramento', function (req, res) {
-	db.collection('dados').find().sort({$natural:-1}).limit(50).toArray( function (err, result) {
-		if (err){ return console.log(err);}
-		var dtaV = [];
-		var lbls = [];
-		var title;
-		for (var i = result.length-1 ; i >=0 ; i--) {
-			lbls.push(result[i].hour);
-			dtaV.push(result[i].value);
-		}
-		res.render('monitoramento.ejs', {dados: result, dtav:dtaV, labels: lbls});
-	});
-});
-
-// download dos dados
-app.get('/download', function (req, res) {
-    res.download(__dirname+'/dadocsv.csv','dadocsv.csv');
-});
+var io = socket.listen(server);

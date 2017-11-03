@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <% include ../partials/head %>
+  <% include ../partials/header %>
+  <body>
+    <main class="conteiner">
+      <% if(messages.erro) { %>
+        <div class="alert alert-danger alert-dismissible fade show col-md-6 mx-auto" role="alert">
+          <%=messages.erro %>
+        </div>
+      <% } %>
+      <% if(messages.info) { %>
+        <div class="alert alert-success alert-dismissible fade show col-md-6 mx-auto" role="alert">
+          <%=messages.info %>
+        </div>
+      <% } %>
+      
+      <div class="jumbotron bg-dark col-md-6 mx-auto">
+        <h1 class="text-left">Cadastro
+        <a href="/usuarios" class="btn btn-primary float-right">Voltar</a></h1>
+        <form method="post" action="/usuarios/cadastrar" class="text-left">
+          <label for="nome">Nome</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="text" placeholder="Nome" value="<%= user.nome %>" name="nome" required>
+          <label for="nome">Username</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="text" placeholder="Username" value="<%= user.user %>" name="user" required>
+          <label for="nascimento">Email</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="email" placeholder="Email" value="<%= user.email %>" name="email" required>
+          <label for="nascimento">Senha</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="password" placeholder="Senha" name="senha" required autocomplete="off">
+          <label for="nascimento">Confirmar Senha</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="password" placeholder="Senha" name="confirmarSenha" required autocomplete="off">
+          <label for="nascimento">Nascimento</label>
+          <input type="date" name="nascimento" class="form-control col-md-12  mx-auto mb-1" value="<%= user.nascimento %>" required>
+          <br>
+          <button class="btn btn-success col-md-12 mx-auto btn-block">Salvar</button>
+        </form>
+      </div>
+    </main>
+  </body>
+  <% include ../partials/footer %>
+</html>

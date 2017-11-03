@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <% include ../partials/head %>
+    <header class="cabecalho bg-dark">
+      <a href="/home"><h1 class="logo">Energysaver</h1></a>
+    </header>
+    <body>
+      <main class="conteiner">
+      <% if (messages.erro){ %>
+        <div class="alert alert-warning col-md-4 mx-auto" role="alert">          
+          <%= messages.erro %>
+        </div>
+      <% } %>
+        <div class="jumbotron bg-dark col-md-4 mx-auto text-center">
+          <form method="post" action="/">
+            <h1 class="display-4">Login</h1>
+            <input class="form-control" type="text" placeholder="Username" name="user" autofocus required>
+            <input class="form-control" type="password" placeholder="Senha" name="senha" required>
+            <br>
+            <button class="btn btn-primary btn-block">Entrar</button>
+          </form>
+        </div>
+      </main>
+  <script type="text/javascript">
+  
+  </script>
+  </body>
+  <% include ../partials/footer %>
+</html>

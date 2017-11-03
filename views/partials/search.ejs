@@ -1,0 +1,31 @@
+<div class="search-box">
+    <form method="GET" action="/search">
+        <label>
+            <h3>Pesquisar por data:</h3>
+        </label>
+        <input type="date" name="day">
+        <button class="btn bg-blue color-white">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+    <p>Exibindo ultimos <%=dados.data.length %> resultados </p>
+    <hr class="my-4 bg-white" />
+    <h3> Download 
+        <a href="/download" class="btn bg-blue color-white">
+            <i class="fa fa-download"></i>
+        </a>
+    </h3>
+    <br>
+    <div class=" text-left card float-left bg-dark text-light ml-2 mb-2" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title p-3 text-capitalize"> Dados do sensor</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="w-50"> Nome: </span> <span class="w-50"> <%= sensor.name_sensor %> </span></li>
+            <li class="list-group-item"><span class="w-50"> Tipo: </span> <span class="w-50"> <%= sensor.type_sensor %> </span></li>
+            <li class="list-group-item"><span class="w-50"> Modelo: </span> <span class="w-50"> <%= sensor.model_sensor %> </span></li>
+            <li class="list-group-item"><span class="w-50"> Dispositivo: </span> <span class="w-50"> <%= sensor.device %> </span></li>
+            <li class="list-group-item"><span class="w-50"> Local: </span> <span class="w-50"> <%= sensor.local %> </span></li>
+        </ul>
+    </div>
+</div>

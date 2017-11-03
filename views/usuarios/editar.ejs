@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <% include ../partials/head %>
+  <% include ../partials/header %>
+  <body>
+    <main class="conteiner">
+      <% if(messages.erro) { %>
+          <div class="alert alert-danger alert-dismissible fade show col-md-8 mx-auto" role="alert">
+            <%=messages.erro %>
+          </div>
+      <% } %>
+      <% if(messages.info) { %>
+          <div class="alert alert-success alert-dismissible fade show col-md-8 mx-auto" role="alert">
+            <%=messages.info %>
+          </div>
+      <% } %>
+      <div class="jumbotron bg-dark col-md-6 mx-auto">
+        <h1 class="text-left">Editar<a href="/usuarios" class="btn btn-primary float-right">Voltar</a></h1>
+      </h1>
+        <form method="post" action="/usuarios/editar/<%= user._id %>" class="text-left">
+          <label for="nome">Nome</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="text" placeholder="Nome" name="nome" value="<%= user.nome %>" required>
+          <label for="nome">Username</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="text" placeholder="Username" name="user" value="<%= user.user %>" disabled>
+          <label for="nascimento">Email</label>
+          <input class="form-control col-md-12 mx-auto mb-1" type="email" placeholder="Email" name="email" value="<%= user.email %>" disabled>
+          <label for="nascimento">Nascimento</label>
+          <input type="date" name="nascimento" class="form-control col-md-12 mx-auto mb-1" value="<%= user.nascimento %>" required autocomplete="off">
+          <br>
+          <button class="btn btn-success col-md-12 mx-auto btn-block">Salvar</button>
+        </form>
+      </div>
+    </main>
+  </body>
+  <% include ../partials/footer %>
+</html>

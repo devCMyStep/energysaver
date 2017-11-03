@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <% include ../partials/head %>
+    <% include ../partials/header %>
+    <body>
+      <div class="search-box">
+        <form method="get" action="/search">
+          <label><h3>Pesquisar por data:</h3></label>
+          <input type="date" name="day">
+          <button class="btn bg-blue color-white"><i class="fa fa-search"></i></button>
+          <a href="/download" class="btn bg-blue color-white"><i class="fa fa-download"></i></a>
+        </form>
+        <br />
+        <p>
+          <% if (dados.data.length > 0) { %>
+          Exibindo <%= dados.data.length%> resultados para "<%= day_search %>".
+          <% } else { %>
+            Nenhum resultado para "<%= day_search %>".
+          <% } %>
+        </p>
+        <hr class="my-4 bg-white" />
+      </div>
+      <main class="box-chart">
+        <a href="/dados" class="btn btn-primary float-right">Voltar</a>
+        <canvas class="line-chart"></canvas>
+      </main>
+  </body>
+  <% include ../partials/footer %>
+  <script type="text/javascript">
+  var ctx = $(".line-chart");
+  var ChartGraph = new Chart( ctx, {
+    type: 'line',
+    data: {
+      labels : <%-JSON.stringify(dados.labels) %>,
+      datasets :[
+      {
+        label : "Corrente (A)",
+        strokeColor: "#fff",
+        fontColor: "#fff",
+        data : <%-JSON.stringify(dados.data) %>,
+        borderWidth : 2,
+        pointStyle: "circle",
+        tension: 0,
+        pointRadius: 1,
+        hitRadius:0,
+        hoverRadius: 10,
+        borderColor : '#3399ff',
+        backgroundColor: 'rgba(51, 51, 51, 0.5)'
+      }
+      ]
+    },
+    options: options
+  });
+
+</script>
+</html>

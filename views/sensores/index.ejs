@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <% include ../partials/head %>
+  <% include ../partials/header %>
+  <body>
+  <br>
+  <main class="conteiner">
+      <% if(messages.erro) { %>
+        <div class="alert alert-danger alert-dismissible fade show col-md-11 mx-auto" role="alert">
+          <%=messages.erro %>
+        </div>
+      <% } %>
+      <% if(messages.info) { %>
+        <div class="alert alert-success alert-dismissible fade show col-md-11 mx-auto" role="alert">
+          <%=messages.info %>
+        </div>
+      <% } %>
+      <div class="container px-0">
+          <h3> <%= session.nome %> 
+            <a href="/usuarios/user/<%=session._id %>" class="btn btn-primary float-right">Voltar</a>
+          </h3>
+          <br>
+          <h4> Meus Sensores </h4>
+          <hr>
+        
+          <% if (sensor.length == 0) { %>
+              <h1 class="text-center display-4" colspan="6"> Nenhum sensor adicionado! </h1>
+          <% } else { %>  
+            <% for (var i = 0; i< sensor.length; i++) { %>
+            <div class="card float-left bg-dark text-light ml-2 mb-2" style="width: 20rem;">
+              <div class="card-body">
+                <h4 class="card-title p-3 text-capitalize"> <%= sensor[i].name_sensor %> </h3>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span class="w-50"> Tipo: </span> <span class="w-50"> <%= sensor[i].type_sensor %> </span></li>
+                <li class="list-group-item"><span class="w-50"> Modelo: </span> <span class="w-50"> <%= sensor[i].model_sensor %> </span></li>
+                <li class="list-group-item"><span class="w-50"> Dispositivo: </span> <span class="w-50"> <%= sensor[i].device %> </span></li>
+                <li class="list-group-item"><span class="w-50"> Local: </span> <span class="w-50"> <%= sensor[i].local %> </span></li>
+              </ul>
+              <div class="card-body p-3 text-center">
+                  <a href="/usuarios/user/<%= session._id %>/sensores/sensor/<%= sensor[i]._id %>">
+                    <button type="button" class="btn btn-primary">
+                      Ver mais <i class="fa fa-eye"></i>
+                    </button>
+                </a>
+                <span>&nbsp;</span>
+                <a href="/usuarios/user/<%= session._id %>/sensores/editar/<%= sensor[i]._id %>">
+                  <button type="button" class="btn btn-primary">
+                    Editar <i class="fa fa-pencil"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          <% } %>
+        <% } %> 
+          <br>
+      </div>
+  </main>
+    
+  </body>
+  <% include ../partials/footer %>
+</html>

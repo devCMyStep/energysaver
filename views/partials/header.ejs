@@ -1,0 +1,16 @@
+<header class="cabecalho bg-dark">
+    <button class="btn-menu">
+    <i class="fa fa-bars fa-lg color-white"></i>
+    </button>
+    <a href="/home"><h1 class="logo">Energysaver</h1></a>
+    <nav class="menu">
+    <a href="#" class="btn-close"><i class="fa fa-close"></i></a>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <!-- <li><a href="/usuarios">Usuarios</a></li> -->
+        <li><a href="/usuarios/user/<%= session._id %>/sensores">Sensores</a></li>
+        <li><a href="/usuarios/user/<%= session._id %>"><%= session.nome.split(" ")[0] %></a></li>
+        <li><a href="/logout">Sair</a></li>
+    </ul>
+    </nav>
+</header>
