@@ -11,7 +11,7 @@ O script funciona em forma de loop onde o dado é coletado e enviado para o Brok
 Após criar o programa que será usado para enviar os dados para o sistema algumas observações devem ser cumpridas. A primeira delas é o modelo de envio de dados, este é utilizado para organizar o envio corretamente para que o servidor identifique e armazene cada dado. O modelo é definido por um objeto que contém as informações do sistema que está enviando os dados, bem como usuário, local, dispositivo que está enviando, dia, hora, tipo do sensor, modelo, e o valor da leitura. A segunda, deve-se indicar o tópico de envio do dado para o servidor. O tópico é uma string que redireciona o dado para um determinado canal que somente o cliente que possui acesso a ele pode receber as mensagens. E por último, deve ser indicado o endereço de chegada do dado, que é o IP do servidor de armazenamento de dados.
 
 ```
-		}
+		{
 		“user”: “Dalton”,
 		“local”: “laboratório”,
 		”device”: “raspberry pi”,
